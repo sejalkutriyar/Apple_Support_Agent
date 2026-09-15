@@ -61,7 +61,6 @@ python eval/human_agreement.py
 ```
 Apple_Support_Agent/
 ├── README.md                  # Setup instructions and project overview
-├── PROJECT_MASTER_PLAN.md      # Master project specification and plan
 ├── requirements.txt           # Python dependency requirements
 ├── decision_log.md            # 12 technical engineering decisions & rationale
 ├── data/
@@ -107,4 +106,3 @@ Apple_Support_Agent/
 
 - **Evaluation Report**: [`report/REPORT.md`](report/REPORT.md)
 - **Decision Log**: [`decision_log.md`](decision_log.md)
-- **Master Project Plan**: [`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md)
