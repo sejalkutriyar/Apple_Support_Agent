@@ -1,0 +1,24 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Cached embeddings & temporary processing artifacts (can be generated automatically)
+data/processed/*.npy
+data/processed/*.pkl
+
+# Streamlit temporary files
+.streamlit/secrets.toml
