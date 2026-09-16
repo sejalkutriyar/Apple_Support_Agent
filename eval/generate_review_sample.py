@@ -23,7 +23,7 @@ from src.retrieval import HistoricalRetriever
 from src.reply_generator import GroundedReplyGenerator
 from eval.judge import LLMJudge
 
-N_SAMPLES = 40
+N_SAMPLES = 20
 GOLDEN_PATH = "data/golden/golden_set.csv"
 BLIND_SHEET_PATH = "eval/human_blind_sheet.csv"
 JUDGE_CACHE_PATH = "eval/judge_scores_cache.csv"

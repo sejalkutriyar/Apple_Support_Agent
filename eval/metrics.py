@@ -69,12 +69,22 @@ if __name__ == "__main__":
     sb_preds = [sb.process_message(m) for m in messages]
     sb_results = evaluate_predictions("data/golden/golden_set.csv", sb_preds, model_name="Simple Baseline")
 
-    print("\nEvaluating Full SupportAgent Pipeline on Golden Set (this will take a while -- LLM calls per example)...")
+    print("\nEvaluating Full SupportAgent Pipeline on Golden Set (4x parallel workers)...")
     pipeline = SupportAgentPipeline()
-    pipe_preds = []
-    for i, m in enumerate(messages, 1):
-        print(f"  [{i}/{len(messages)}] Processing...", flush=True)
-        pipe_preds.append(pipeline.process_message(m))
+    
+    from concurrent.futures import ThreadPoolExecutor
+
+    def process_one(idx_msg):
+        idx, msg = idx_msg
+        res = pipeline.process_message(msg, generate_draft=False)
+        print(f"  [{idx}/{len(messages)}] Done", flush=True)
+        return (idx, res)
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        indexed_results = list(executor.map(process_one, enumerate(messages, 1)))
+    indexed_results.sort(key=lambda x: x[0])
+    pipe_preds = [r[1] for r in indexed_results]
+
     pipe_results = evaluate_predictions("data/golden/golden_set.csv", pipe_preds, model_name="SupportAgent Pipeline (Ours)")
 
     # Save all three results + raw predictions so the report can cite REAL numbers

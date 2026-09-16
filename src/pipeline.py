@@ -27,7 +27,7 @@ class SupportAgentPipeline:
         self.reply_generator = GroundedReplyGenerator(model_name=ollama_model)
         print("Pipeline successfully initialized and ready!")
 
-    def process_message(self, customer_message: str) -> dict:
+    def process_message(self, customer_message: str, generate_draft: bool = True) -> dict:
         """Processes an incoming customer support message end-to-end with latency instrumentation."""
         start_total = time.time()
         latency = {}
@@ -57,9 +57,9 @@ class SupportAgentPipeline:
         )
         latency['escalation_eval_ms'] = round((time.time() - t2) * 1000, 2)
 
-        # Stage 4: Grounded Reply Generation
+        # Stage 4: Grounded Reply Generation (Optional)
         t3 = time.time()
-        if not escalation_res['should_escalate']:
+        if generate_draft and not escalation_res['should_escalate']:
             reply_res = self.reply_generator.generate_reply(
                 customer_message=customer_message,
                 intent=intent,
@@ -68,8 +68,7 @@ class SupportAgentPipeline:
             draft_reply = reply_res['draft_reply']
             citations = reply_res['citations']
         else:
-            # Human Escalation Notice
-            draft_reply = f"[ESCALATED TO HUMAN AGENT] Reason: {escalation_res['reason']}"
+            draft_reply = f"[ESCALATED TO HUMAN AGENT] Reason: {escalation_res['reason']}" if escalation_res['should_escalate'] else None
             citations = []
         latency['reply_generation_ms'] = round((time.time() - t3) * 1000, 2)
 
