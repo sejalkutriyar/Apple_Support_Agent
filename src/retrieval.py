@@ -51,13 +51,12 @@ class HistoricalRetriever:
             print("Loading precomputed vector embeddings from cache...")
             self.embeddings = np.load(self.embeddings_path)
             with open(self.metadata_path, "rb") as f:
-                cached_df = pickle.load(f)
-                if len(cached_df) == len(self.df_resolved):
-                    self.df_resolved = cached_df
-                else:
-                    print("Cache size mismatch. Rebuilding index...")
-                    self._build_and_cache_index()
+                self.df_resolved = pickle.load(f)
         else:
+            print("Precomputed index not found. Building fallback TF-IDF vector index for cloud environment...")
+            self.use_tf_idf = True
+            from sklearn.feature_extraction.text import TfidfVectorizer
+            self.vectorizer = TfidfVectorizer(stop_words='english', max_features=10000)
             self._build_and_cache_index()
 
     def _build_and_cache_index(self):

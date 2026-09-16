@@ -19,9 +19,5 @@ Thumbs.db
 # Internal Plan
 PROJECT_MASTER_PLAN.md
 
-# Cached embeddings & temporary processing artifacts (can be generated automatically)
-data/processed/*.npy
-data/processed/*.pkl
-
 # Streamlit temporary files
 .streamlit/secrets.toml
