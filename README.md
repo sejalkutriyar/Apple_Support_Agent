@@ -1,7 +1,6 @@
 # AppleSupport AI Agent
 
-> **Autonomous Customer Support Agent for @AppleSupport**  
-> *Hiver SDE Intern Take-Home Assignment Submission*
+> **Autonomous Customer Support Agent for @AppleSupport** 
 
 An end-to-end AI Support Agent built for `@AppleSupport` using historical Twitter customer support threads. The system classifies customer intents, retrieves grounded historical resolutions via RAG, drafts citation-backed replies, and executes automated risk escalation logic for high-hazard queries.
 
